@@ -16,7 +16,7 @@ function Container() {
   const [results, setResults] = useState('');
 
   function handleCalculateRepayments(e) {
-    e.preventDefault();
+    //e.preventDefault();
     setResults(calculateMortgagePayments(mortgageAmount, interestRate, mortgageTerm, mortgageType));
   }
 
@@ -39,11 +39,18 @@ function Container() {
 }
 
 function Calculator({formData, onCalculateRepayments}) {
+  function clearAllFields() {
+    formData.setMortgageAmount("");
+    formData.setMortgageTerm("");
+    formData.setInterestRate("");
+    formData.setMortgageType("");
+  }
+
   return (
     <div className="calculator">
       <div className="head-line">
         <h1>Mortgage Calculator</h1>
-        <span>Clear all</span>
+        <span class="clear-all" onClick={clearAllFields}>Clear all</span>
       </div>
       
       <Form {...formData} onCalculateRepayments={onCalculateRepayments}/>
@@ -52,8 +59,42 @@ function Calculator({formData, onCalculateRepayments}) {
 }
 
 function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm, interestRate, setInterestRate, mortgageType, setMortgageType, onCalculateRepayments}) {
+  const [errors, setErrors] = useState({
+    mortgageAmount: false,
+    mortgageTerm: false,
+    interestRate: false,
+    mortgageType: false
+  });
+
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const validateForm = () => {
+    const newErrors = {
+      mortgageAmount: mortgageAmount > 0,
+      mortgageTerm: mortgageTerm > 0,
+      interestRate: interestRate > 0,
+      mortgageType: mortgageType !== ""
+    }
+
+    setErrors(newErrors);
+    return newErrors;
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setHasSubmitted(true);
+
+    const validationErrors = validateForm();
+
+    if(Object.values(validationErrors).includes(false)) {
+      return;   // if errors, exit without calculate
+    }
+
+    onCalculateRepayments();
+  }
+
   return (
-    <form onSubmit={onCalculateRepayments}>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="mortgage-amount">Mortgage amount</label>
       <div className="input-wrapper">
         <span className="unit">€</span>
@@ -64,6 +105,7 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
           onChange={(e) => setMortgageAmount(e.target.value)}
         />
       </div>
+      {hasSubmitted && !errors.mortgageAmount && <p className="error-message">Invalid value</p>}
 
       <label htmlFor="mortgage-term">Mortgage term</label>
       <div className="input-wrapper">
@@ -75,6 +117,7 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
         />
         <span className="unit">years</span>
       </div>
+      {hasSubmitted && !errors.mortgageTerm && <p className="error-message">Invalid value</p>}
 
       <label htmlFor="interest-rate">Interest rate</label>
       <div className="input-wrapper">
@@ -86,6 +129,7 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
         />
         <span className="unit">%</span>
       </div>
+      {hasSubmitted && !errors.interestRate && <p className="error-message">Invalid value</p>}
 
       <label htmlFor="mortgage-type">Mortgage type</label>
       <div className="input-wrapper">
@@ -112,6 +156,7 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
           <label htmlFor="interest-only">Interest only</label>
         </div>
       </div>
+      {hasSubmitted && !errors.mortgageType && <p className="error-message">Invalid value</p>}
 
       <button type="submit">Calculate Repayments</button>
     </form>
