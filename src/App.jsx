@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -79,6 +79,12 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
     setErrors(newErrors);
     return newErrors;
   }
+
+  useEffect(() => {
+    if (hasSubmitted) {
+      validateForm();
+    }
+  }, [mortgageAmount, mortgageTerm, interestRate, mortgageType, hasSubmitted]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
