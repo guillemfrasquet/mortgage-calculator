@@ -101,70 +101,85 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
 
   return (
     <form onSubmit={handleSubmit}>
+      <div className={`form-field ${hasSubmitted && !errors.mortgageAmount ? 'error' : ''}`}>
       <label htmlFor="mortgage-amount">Mortgage amount</label>
       <div className="input-wrapper">
-        <span className="unit">€</span>
+        <span className="unit unit-left">€</span>
         <input 
           type="number" 
           id="mortgage-amount"
+          class="input-right"
           value={mortgageAmount}
           onChange={(e) => setMortgageAmount(e.target.value)}
         />
       </div>
-      {hasSubmitted && !errors.mortgageAmount && <p className="error-message">Invalid value</p>}
-
-      <label htmlFor="mortgage-term">Mortgage term</label>
-      <div className="input-wrapper">
-        <input 
-          type="number" 
-          id="mortgage-term"
-          value={mortgageTerm}
-          onChange={(e) => setMortgageTerm(e.target.value)}
-        />
-        <span className="unit">years</span>
+      {hasSubmitted && !errors.mortgageAmount && <p className="error-message">This field is required</p>}
       </div>
-      {hasSubmitted && !errors.mortgageTerm && <p className="error-message">Invalid value</p>}
 
-      <label htmlFor="interest-rate">Interest rate</label>
-      <div className="input-wrapper">
-        <input 
-          type="number" 
-          id="interest-rate"
-          value={interestRate}
-          onChange={(e) => setInterestRate(e.target.value)}
-        />
-        <span className="unit">%</span>
-      </div>
-      {hasSubmitted && !errors.interestRate && <p className="error-message">Invalid value</p>}
-
-      <label htmlFor="mortgage-type">Mortgage type</label>
-      <div className="input-wrapper">
-        <div>
+      <div className='two-columns'>
+      <div className={`form-field ${hasSubmitted && !errors.mortgageTerm ? 'error' : ''}`}>
+        <label htmlFor="mortgage-term">Mortgage term</label>
+        <div className="input-wrapper">
           <input 
-            type="radio" 
-            id="repayment" 
-            name="mortgage-type" 
-            value="repayment" 
-            checked={mortgageType === 'repayment'}
-            onChange={() => setMortgageType('repayment')}
+            type="number" 
+            id="mortgage-term"
+            class="input-left"
+            value={mortgageTerm}
+            onChange={(e) => setMortgageTerm(e.target.value)}
           />
-          <label htmlFor="repayment">Repayment</label>
+          <span className="unit unit-right">years</span>
         </div>
-        <div>
+        {hasSubmitted && !errors.mortgageTerm && <p className="error-message">This field is required</p>}
+      </div>
+
+      <div className={`form-field ${hasSubmitted && !errors.interestRate ? 'error' : ''}`}>
+        <label htmlFor="interest-rate">Interest rate</label>
+        <div className="input-wrapper">
           <input 
-            type="radio" 
-            id="interest-only" 
-            name="mortgage-type" 
-            value="interest-only" 
-            checked={mortgageType === 'interest-only'}
-            onChange={() => setMortgageType('interest-only')}
+            type="number" 
+            id="interest-rate"
+            class="input-left"
+            value={interestRate}
+            onChange={(e) => setInterestRate(e.target.value)}
           />
-          <label htmlFor="interest-only">Interest only</label>
+          <span className="unit unit-right">%</span>
+        </div>
+        {hasSubmitted && !errors.interestRate && <p className="error-message">This field is required</p>}
         </div>
       </div>
-      {hasSubmitted && !errors.mortgageType && <p className="error-message">Invalid value</p>}
 
-      <button type="submit">Calculate Repayments</button>
+      <div className='form-field'>
+        <label htmlFor="mortgage-type">Mortgage type</label>
+        <div className="radio-group-wrapper">
+          <div className={`radio-wrapper ${mortgageType === 'repayment' ? 'selected' : ''}`}>
+            <input 
+              type="radio" 
+              id="repayment" 
+              class="input-radio"
+              name="mortgage-type"
+              value="repayment" 
+              checked={mortgageType === 'repayment'}
+              onChange={() => setMortgageType('repayment')}
+            />
+            <label htmlFor="repayment">Repayment</label>
+          </div>
+          <div className={`radio-wrapper ${mortgageType === 'interest-only' ? 'selected' : ''}`}>
+            <input 
+              type="radio" 
+              id="interest-only" 
+              class="input-radio"
+              name="mortgage-type" 
+              value="interest-only" 
+              checked={mortgageType === 'interest-only'}
+              onChange={() => setMortgageType('interest-only')}
+            />
+            <label htmlFor="interest-only">Interest only</label>
+          </div>
+        </div>
+        {hasSubmitted && !errors.mortgageType && <p className="error-message">This field is required</p>}
+      </div>
+
+      <button type="submit"><img src="./assets/images/icon-calculator.svg" alt="Calculator"/>Calculate Repayments</button>
     </form>
   );
 }
@@ -172,23 +187,26 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
 function Results({results}) {
   if(!results || !results.monthlyPayment) {
     return (
-    <div className="results">
-      <p>Results shown here</p>
+    <div className="results waiting-results">
+      <img src='./assets/images/illustration-empty.svg' alt="Results will be shown here"/>
+      <p className='title'>Results shown here</p>
+      <p className='text'>Complete the form and click "calculate repayments" to see what your monthly repayments would be.</p>
     </div>
     )
   } else {
   return (
     <div className="results">
       <h2>Your results</h2>
-      <p>Your results are shown below based on the information you provided. To adjust the results, edit the form and clic "calculate repayments" again.</p>
-          <div>
+      <p className='text'>Your results are shown below based on the information you provided. To adjust the results, edit the form and clic "calculate repayments" again.</p>
+          <div className='results-box'>
             <div>
-              <p>Your monthly repayments</p>
-              € {results.monthlyPayment}
+              <p className='text'>Your monthly repayments</p>
+              <span className="monthly-repayment-value">€ {results.monthlyPayment}</span>
             </div>
+            <hr/>
             <div>
-              <p>Total you'll repay over the term</p>
-              € {results.totalRepay}
+              <p className='text'>Total you'll repay over the term</p>
+              <span className="total-repay-value">€ {results.totalRepay}</span>
             </div>
           </div>
     </div>

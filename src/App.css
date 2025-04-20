@@ -3,14 +3,27 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: hsl(202, 86%, 94%);
+}
+
+h1 {
+  font-size: 18px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.clear-all {
+  font-size: 13px;
+  cursor: pointer;
 }
 
 .container {
   display: flex;
   align-items: center;
-  width: 800px;
-  height: 500px;
-  background-color: lightblue;
+  width: 600px;
+  height: 450px;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .calculator {
@@ -19,7 +32,76 @@ body {
 }
 
 .results {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
   width: 50%;
+  justify-content: center;
+  padding: 20px;
+  background-color: hsl(201, 56%, 21%);
+  color: white;
+  height: 100%;
+  border-bottom-left-radius: 50px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.results h2 {
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-size: 18px;
+}
+
+.waiting-results {
+  text-align: center;
+  align-items: center;
+}
+
+.results .title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.results p {
+  font-size: 12px;
+}
+
+.results img {
+  width: 130px;
+}
+
+.results-box {
+  background-color: hsl(202, 55%, 16%);
+  border-radius: 5px;
+  padding: 15px;
+  padding-top: 5px;
+  box-shadow: 0px -3px 0px hsl(61, 70%, 52%);
+  margin-top: 10px;
+}
+
+.results-box .monthly-repayment-value {
+  font-size: 24px;
+  color: hsl(61, 70%, 52%);
+  font-weight: bold;
+}
+
+.results-box .total-repay-value {
+  font-size: 18px;
+  color: white;
+  font-weight: 500;
+}
+
+.results-box p {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.results-box hr {
+  border-color: hsla(203, 41%, 72%, 0.3); 
+}
+
+.results .text {
+  color: hsl(203, 41%, 72%);
 }
 
 .head-line {
@@ -33,4 +115,161 @@ body {
   padding:  0;
   margin: 0;
   color: red;
+  font-size: 13px;
+}
+
+
+.input-wrapper {
+  display: flex;
+  border: 1.3px solid hsla(199, 15%, 45%, 0.2);
+  border-radius: 4px;
+  height: 30px;
+}
+
+.input-wrapper>input {
+  border: none;
+  width: 100%;
+}
+
+.input-wrapper>.input-left {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.input-wrapper>.input-right {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.input-wrapper>.unit {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  background-color: hsl(202, 86%, 94%);
+  font-size: 14px;
+}
+
+.radio-wrapper {
+  border: 1px solid hsl(199, 15%, 45%);
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+input[type="radio"] {
+  accent-color: hsl(61, 70%, 52%);
+  cursor: pointer;
+}
+
+.radio-wrapper {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1.3px solid hsla(199, 15%, 45%, 0.2);
+}
+
+.radio-wrapper.selected {
+  background-color: hsla(61, 70%, 52%, 0.15);
+  border: 1.3px solid hsl(61, 70%, 52%);
+}
+
+.radio-wrapper:hover {
+  border-color: hsl(61, 70%, 52%);
+}
+
+.radio-wrapper label {
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.input-wrapper>input {
+  padding-left: 10px;
+}
+
+.input-wrapper:focus-within {
+  border-color: hsl(61, 70%, 52%) !important;
+}
+
+.input-wrapper:hover {
+  border-color: hsla(199, 15%, 45%, 0.4);
+}
+
+.input-wrapper:focus-within .unit {
+  background-color: hsl(61, 70%, 52%);
+}
+
+.form-field {
+  margin-top: 15px;
+}
+
+.form-field>label {
+  font-size: 12px;
+  color: gray;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-top: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: hsl(61, 70%, 52%);
+  border-radius: 40px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+button>img {
+  width: 15px;
+}
+
+.two-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.error .input-wrapper {
+  border-color: red;
+}
+
+.error .input-wrapper .unit {
+  background-color: red;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  body {
+    height: auto;
+    background-color: transparent;
+  }
+  .container {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+
+  .calculator {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .results {
+    width: 100%;
+    border-radius: 0;
+  }
 }
