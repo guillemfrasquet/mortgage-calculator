@@ -210,7 +210,7 @@ function Results({results}) {
   return (
     <div className="results">
       <h2>Your results</h2>
-      <p className='text'>Your results are shown below based on the information you provided. To adjust the results, edit the form and clic "calculate repayments" again.</p>
+      <p className='text'>Your results are shown below based on the information you provided. To adjust the results, edit the form and click "Calculate repayments" again.</p>
           <div className='results-box'>
             <div>
               <p className='text'>Your monthly repayments</p>
