@@ -10,13 +10,13 @@ body {
 }
 
 h1 {
-  font-size: 18px;
+  font-size: 21px;
   margin-top: 15px;
   margin-bottom: 15px;
 }
 
 .clear-all {
-  font-size: 12px;
+  font-size: 15px;
   cursor: pointer;
   color: gray;
   user-select: none;
@@ -25,8 +25,8 @@ h1 {
 .container {
   display: flex;
   align-items: center;
-  width: 600px;
-  height: 450px;
+  width: 700px;
+  height: 500px;
   background-color: white;
   border-radius: 20px;
 }
@@ -54,7 +54,7 @@ h1 {
 .results h2 {
   margin-top: 0;
   margin-bottom: 0px;
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .waiting-results {
@@ -63,12 +63,12 @@ h1 {
 }
 
 .results .title {
-  font-size: 16px;
+  font-size: 19px;
   font-weight: bold;
 }
 
 .results p {
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .results img {
@@ -85,19 +85,19 @@ h1 {
 }
 
 .results-box .monthly-repayment-value {
-  font-size: 24px;
+  font-size: 27px;
   color: hsl(61, 70%, 52%);
   font-weight: bold;
 }
 
 .results-box .total-repay-value {
-  font-size: 18px;
+  font-size: 21px;
   color: white;
   font-weight: 500;
 }
 
 .results-box p {
-  font-size: 12px;
+  font-size: 15px;
   margin-bottom: 5px;
 }
 
@@ -120,7 +120,11 @@ h1 {
   padding:  0;
   margin: 0;
   color: red;
-  font-size: 13px;
+  font-size: 16px;
+}
+
+input {
+  font-size: 15px;
 }
 
 
@@ -128,7 +132,8 @@ h1 {
   display: flex;
   border: 1.3px solid hsla(199, 15%, 45%, 0.2);
   border-radius: 4px;
-  height: 30px;
+  height: 35px;
+  margin-top: 5px;
 }
 
 .input-wrapper>input {
@@ -152,7 +157,9 @@ h1 {
   padding-left: 8px;
   padding-right: 8px;
   background-color: hsl(202, 86%, 94%);
-  font-size: 14px;
+  font-size: 15px;
+  color: hsl(200, 24%, 40%);
+  font-weight: 500;
 }
 
 .radio-wrapper {
@@ -161,13 +168,17 @@ h1 {
   margin-bottom: 5px;
 }
 
+.radio-group-wrapper {
+  margin-top: 5px;
+}
+
 input[type="radio"] {
   accent-color: hsl(61, 70%, 52%);
   cursor: pointer;
 }
 
 .radio-wrapper {
-  height: 30px;
+  height: 35px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -186,7 +197,7 @@ input[type="radio"] {
 .radio-wrapper label {
   width: 100%;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 input:focus {
@@ -215,7 +226,7 @@ input:focus {
 }
 
 .form-field>label {
-  font-size: 12px;
+  font-size: 14px;
   color: gray;
 }
 
@@ -227,7 +238,7 @@ button {
   padding-right: 18px;
   padding-left: 18px;
   margin-top: 15px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   background-color: hsl(61, 70%, 52%);
   border-radius: 40px;
