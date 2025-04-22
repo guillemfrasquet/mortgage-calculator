@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,8 +16,10 @@ h1 {
 }
 
 .clear-all {
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
+  color: gray;
+  user-select: none;
 }
 
 .container {
@@ -181,7 +186,7 @@ input[type="radio"] {
 .radio-wrapper label {
   width: 100%;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 input:focus {
@@ -217,10 +222,10 @@ input:focus {
 button {
   all: unset;
   cursor: pointer;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 18px;
+  padding-left: 18px;
   margin-top: 15px;
   font-size: 13px;
   font-weight: 500;
@@ -231,14 +236,12 @@ button {
   align-items: center;
 }
 
-button>img {
-  width: 15px;
+button:hover {
+  background-color: hsla(61, 70%, 52%, 0.7);
 }
 
-.two-columns {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
+button>img {
+  width: 15px;
 }
 
 .error .input-wrapper {
@@ -271,5 +274,19 @@ button>img {
   .results {
     width: 100%;
     border-radius: 0;
+  }
+
+  .calculate-button {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+}
+
+@media (min-width: 601px) { 
+  .two-columns {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
   }
 }

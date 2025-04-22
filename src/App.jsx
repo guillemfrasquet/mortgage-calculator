@@ -15,9 +15,24 @@ function Container() {
 
   const [results, setResults] = useState('');
 
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
   function handleCalculateRepayments(e) {
     //e.preventDefault();
     setResults(calculateMortgagePayments(mortgageAmount, interestRate, mortgageTerm, mortgageType));
+  }
+
+  function resetAll() {
+    clearAllFields();
+    setResults('');
+    setHasSubmitted(false);
+  }
+
+  function clearAllFields() {
+    setMortgageAmount("");
+    setMortgageTerm("");
+    setInterestRate("");
+    setMortgageType("");
   }
 
   return (
@@ -31,34 +46,27 @@ function Container() {
         setInterestRate, 
         mortgageType, 
         setMortgageType 
-      }} onCalculateRepayments={handleCalculateRepayments} />
+      }} onCalculateRepayments={handleCalculateRepayments} onClearAll={resetAll} hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted} />
       <Results results={results}/>
 
     </div>
   );
 }
 
-function Calculator({formData, onCalculateRepayments}) {
-  function clearAllFields() {
-    formData.setMortgageAmount("");
-    formData.setMortgageTerm("");
-    formData.setInterestRate("");
-    formData.setMortgageType("");
-  }
-
+function Calculator({formData, onCalculateRepayments, onClearAll, hasSubmitted, setHasSubmitted}) {
   return (
     <div className="calculator">
       <div className="head-line">
         <h1>Mortgage Calculator</h1>
-        <span class="clear-all" onClick={clearAllFields}>Clear all</span>
+        <span className="clear-all" onClick={onClearAll}>Clear all</span>
       </div>
       
-      <Form {...formData} onCalculateRepayments={onCalculateRepayments}/>
+      <Form {...formData} onCalculateRepayments={onCalculateRepayments} hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted}/>
     </div>
   );
 }
 
-function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm, interestRate, setInterestRate, mortgageType, setMortgageType, onCalculateRepayments}) {
+function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm, interestRate, setInterestRate, mortgageType, setMortgageType, onCalculateRepayments, hasSubmitted, setHasSubmitted}) {
   const [errors, setErrors] = useState({
     mortgageAmount: false,
     mortgageTerm: false,
@@ -66,14 +74,14 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
     mortgageType: false
   });
 
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  
 
   const validateForm = () => {
     const newErrors = {
-      mortgageAmount: mortgageAmount > 0,
-      mortgageTerm: mortgageTerm > 0,
-      interestRate: interestRate > 0,
-      mortgageType: mortgageType !== ""
+      mortgageAmount: !(mortgageAmount > 0),
+      mortgageTerm: !(mortgageTerm > 0),
+      interestRate: !(interestRate > 0),
+      mortgageType: mortgageType === ""
     }
 
     setErrors(newErrors);
@@ -92,7 +100,7 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
 
     const validationErrors = validateForm();
 
-    if(Object.values(validationErrors).includes(false)) {
+    if(Object.values(validationErrors).some(error => error)) {
       return;   // if errors, exit without calculate
     }
 
@@ -101,50 +109,55 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className={`form-field ${hasSubmitted && !errors.mortgageAmount ? 'error' : ''}`}>
+      <div className={`form-field ${hasSubmitted && errors.mortgageAmount ? 'error' : ''}`}>
       <label htmlFor="mortgage-amount">Mortgage amount</label>
       <div className="input-wrapper">
         <span className="unit unit-left">€</span>
         <input 
           type="number" 
           id="mortgage-amount"
-          class="input-right"
+          className="input-right"
           value={mortgageAmount}
+          min={1}
           onChange={(e) => setMortgageAmount(e.target.value)}
         />
       </div>
-      {hasSubmitted && !errors.mortgageAmount && <p className="error-message">This field is required</p>}
+      {hasSubmitted && errors.mortgageAmount && <p className="error-message">This field is required</p>}
       </div>
 
       <div className='two-columns'>
-      <div className={`form-field ${hasSubmitted && !errors.mortgageTerm ? 'error' : ''}`}>
+      <div className={`form-field ${hasSubmitted && errors.mortgageTerm ? 'error' : ''}`}>
         <label htmlFor="mortgage-term">Mortgage term</label>
         <div className="input-wrapper">
           <input 
             type="number" 
             id="mortgage-term"
-            class="input-left"
+            className="input-left"
             value={mortgageTerm}
+            min={0}
+            step="any"
             onChange={(e) => setMortgageTerm(e.target.value)}
           />
           <span className="unit unit-right">years</span>
         </div>
-        {hasSubmitted && !errors.mortgageTerm && <p className="error-message">This field is required</p>}
+        {hasSubmitted && errors.mortgageTerm && <p className="error-message">This field is required</p>}
       </div>
 
-      <div className={`form-field ${hasSubmitted && !errors.interestRate ? 'error' : ''}`}>
+      <div className={`form-field ${hasSubmitted && errors.interestRate ? 'error' : ''}`}>
         <label htmlFor="interest-rate">Interest rate</label>
         <div className="input-wrapper">
           <input 
             type="number" 
             id="interest-rate"
-            class="input-left"
+            className="input-left"
             value={interestRate}
+            min={0}
+            step="any"
             onChange={(e) => setInterestRate(e.target.value)}
           />
           <span className="unit unit-right">%</span>
         </div>
-        {hasSubmitted && !errors.interestRate && <p className="error-message">This field is required</p>}
+        {hasSubmitted && errors.interestRate && <p className="error-message">This field is required</p>}
         </div>
       </div>
 
@@ -155,7 +168,7 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
             <input 
               type="radio" 
               id="repayment" 
-              class="input-radio"
+              className="input-radio"
               name="mortgage-type"
               value="repayment" 
               checked={mortgageType === 'repayment'}
@@ -167,7 +180,7 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
             <input 
               type="radio" 
               id="interest-only" 
-              class="input-radio"
+              className="input-radio"
               name="mortgage-type" 
               value="interest-only" 
               checked={mortgageType === 'interest-only'}
@@ -176,10 +189,10 @@ function Form({mortgageAmount, setMortgageAmount, mortgageTerm, setMortgageTerm,
             <label htmlFor="interest-only">Interest only</label>
           </div>
         </div>
-        {hasSubmitted && !errors.mortgageType && <p className="error-message">This field is required</p>}
+        {hasSubmitted && errors.mortgageType && <p className="error-message">This field is required</p>}
       </div>
 
-      <button type="submit"><img src="./assets/images/icon-calculator.svg" alt="Calculator"/>Calculate Repayments</button>
+      <button class="calculate-button" type="submit"><img src="./assets/images/icon-calculator.svg" alt="Calculator"/>Calculate Repayments</button>
     </form>
   );
 }
